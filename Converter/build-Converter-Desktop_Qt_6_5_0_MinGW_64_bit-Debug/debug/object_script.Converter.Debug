@@ -1,0 +1,11 @@
+debug/addition.o
+debug/conversion.o
+debug/floatingpoint.o
+debug/main.o
+debug/mainwindow.o
+debug/twoscomplement.o
+debug/moc_addition.o
+debug/moc_conversion.o
+debug/moc_floatingpoint.o
+debug/moc_mainwindow.o
+debug/moc_twoscomplement.o

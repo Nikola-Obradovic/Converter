@@ -1,0 +1,11 @@
+release/addition.o
+release/conversion.o
+release/floatingpoint.o
+release/main.o
+release/mainwindow.o
+release/twoscomplement.o
+release/moc_addition.o
+release/moc_conversion.o
+release/moc_floatingpoint.o
+release/moc_mainwindow.o
+release/moc_twoscomplement.o

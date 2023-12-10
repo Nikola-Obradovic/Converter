@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Converter Documentation Page</title>
+    <link href="Converter.css" rel="stylesheet"/>
+    <script src="script.js"></script>
+
+</head>
+
+<body>
+
+<div id="bodydiv">
+
+<nav class="navbar">
+<header>Converter Documentation</header>
+<div class="ulParent">
+<ul class="Navul">
+ <li><a href="#Intro">Introduction</a></li>
+ <li><a href="#Nsys">Number Systems</a></li>
+ <li><a href="#Overview">Converter Overview</a></li>
+ <li><a href="#Conversion">Conversion</a></li>   
+ <li><a href="#Addition">Addition</a></li>
+ <li><a href="#FloatingPoint">Floating Point</a></li>
+ <li><a href="#2Comp">2's Complement</a></li> 
+ 
+ 
+</ul>
+</div>
+
+
+
+</nav>
+
+
+<main>
+<h1 class="htext" id="Intro">Introduction</h1>
+<p class="text">The converter is a desktop application which has multiple purposes concerned with different number systems (decimal, hexadecimal, and binary). The application was coded using Qt, a cross-platform application development framework, with the code being written in C++ programming language. The program supports 4 main functions:</p>
+<ul class="textul">
+<li>Conversion</li>
+<li>Addition</li>
+<li>Floating Point</li>
+<li>2's Complement</li>
+</ul>
+
+<h1 class="htext" id="Nsys">Number Systems</h1>
+<p class="text">Number Systems are mathematical systems used to represent and manipulate numbers. There are different types of number systems such as: Decimal (Base – 10), Binary (Base – 2), Hexadecimal (Base – 16) and Octal (Base – 8). In the application, arithmetical operations and conversions for all the systems apart from the octal are implemented. The decimal number system is the one used in everyday life, with digits ranging from 0-9. The binary system is the most commonly used number system in computer science and digital electronics. It uses just two digits: 0 and 1; computer-readable numbers. We differ in two types of binary numbers: signed and unsigned integers. With signed integers (the first digit in a number describes the sign - positive (0) or negative (1)), we can also deal with negative numbers and do mathematical operations in a wider range, whereas with unsigned ones, the number is always considered positive. The hexadecimal number system is a system with base – 16, meaning there are now digits from 0 to 15, but the notation is different starting from number 10, where numbers are now replaced with letters A, B, C, D, E and F. The most common use of this number system regarding computer architecture is the ASCII table.</p>  
+<h1 class="htext" id="Overview">Converter Overview</h1>
+<p class="text">The Converter was made using the Qt framework because of the implementation of GUI for desktop apps. It was written in C++ using the Widgets module. Widgets are all the elements that can be used in order to make the software responsive, by connecting the GUI with functions which perform specified tasks. These widgets are used for input and output processes in order to send data to certain functions, to display data on the screen, as well as to allow users to open other windows and start executing the code. With the use of widgets, all of the functionalities of the Converter can be accessed through buttons presented on the main window, where other files are accessed with a click of a button and the program waits for the input and the next click to execute the desired code.</p>
+<code>void MainWindow::on_Con_clicked() //Conversion
+  {
+      Conversion c;
+      c.setModal(true);
+      c.exec();
+  
+  }
+</code>
+<p class="text">Each window (apart from the main) of the GUI has an additional (or more additional) clear buttons, which clear the input and output for the user:</p>
+<code>void Conversion::on_pushButton_clicked() //Clear
+  {
+      ui->txtBinIN->clear();
+      ui->txtDecIN->clear();
+      ui->txtHexIN->clear();
+      ui->txtBinOUT->clear();
+      ui->txtBinSigOUT->clear();
+      ui->txtDecOUT->clear();
+      ui->txtDecSigOUT->clear();
+      ui->txtHexOUT->clear();
+  
+  
+  }
+</code>
+<h1 class="htext" id="Conversion">Conversion</h1>
+<p class="text">Conversion is a functionality of the converter which allows conversion from binary, decimal or hexadecimal number systems into other number systems, represented by the following table:</p>
+<table>
+  <tr>
+    <th>Input</th>
+    <th>Output</th>
+    
+  </tr>
+  <tr>
+    <td class="tdc">Bin</td>
+    <td>Bin, Signed Bin, Dec, Dec (from Signed Bin), Hex</td>
+    
+  </tr>
+  <tr>
+    <td class="tdc">Dec</td>
+    <td>Bin, Signed Bin, Dec, Hex</td>
+  
+  </tr>
+  <tr>
+    <td class="tdc">Hex</td>
+    <td>Bin, Dec, Hex</td>
+
+  </tr>
+</table>
+
+<p class="text">The binary input can be interpreted as both signed and unsigned, thus there is an additional decimal output for when it is interpreted as a signed number (Dec (from Signed Bin)). The input for binary has a cap at 30 digits, for decimal input at 18 digits, and for hexadecimal at 15. For decimal numbers, only integers are supported for this functionality, as float numbers are convertable in the "Floating Point" part of the program. The input and output is represented as a QString (a string specific for the Qt framework which allows the interactioin between GUI and the functions), and the input is checked for validation with a validator: </p>
+<code>
+  QRegularExpressionValidator validator(QRegularExpression("^-?[0-9]+$"));
+    int pos = 0;
+
+   if(validator.validate(inputText, pos) == QValidator::Acceptable){
+    QString bin = QString::number(dec,2);
+    QString hex = QString::number(dec,16).toUpper(); ...}
+</code>
+<h1 class="htext" id="Addition">Addition</h1>
+<p class="text">Addition allows the user to add two unsigned binary, float decimal, or two hexadecimal numbers together. For decimal and hexadecimal numbers, subtraction is also supported, but when it comes to hexadecimal numbers, the result must be greater or equal to 0. The implementation of subtracting hexadecimal numbers was done to help with calculations of offset when subtracting addresses in assembly and machine code.</p>
+
+<h1 class="htext" id="FloatingPoint">Floating Point</h1>
+<p class="text">A floating point is the way that a computer is able to represent real numbers, where the first digit is the sign of the number (positive or negative), the next eight digits represent the exponent and the last 23 digits represent the fraction. With these value, the computer is able to quite precisely calculate real numbers. The Converter support conversion from floating point numbers into decimal numbers, and vice versa. The conversion from floating point to decimal uses two formulas best on whether the exponent is 0 or if it is greater than 0, represented in code by the following formula: </p>
+<code>if(exp>0){
+  solution = sign*(1+fraction)*pow(2,exp-127);
+
+}
+
+else{
+
+solution = sign*(fraction)*pow(2,-126);
+}</code>
+<h1 class="htext" id="2Comp">2's Complement</h1>
+<p class="text">Two's complement is the easiest way to represent negative integers on computers. In order to turn a signed positive binary number into a signed negative, we use two's complement, which performes NOT on the initial value and adds ones to it. This representation is necessary in order for arithmetic of signed binary numbers to work, as simply using NOT as we would when considering decimal numbers would not result in a correct answer. </p>
+<br>
+<p class="text">For all of the functionalities of the Converter, the input validation is performed. In case the validation returns false, the following message is displayed: </p>
+
+<code>
+  ui->txtOutput->setText("Invalid input");
+</code>
+<br>
+<br>
+
+
+</main> 
+
+</div>
+</body>
+
+
+
+
+
+
+</html>
